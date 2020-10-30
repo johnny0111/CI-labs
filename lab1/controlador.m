@@ -1,3 +1,5 @@
-function [u] = controlador(f2, h1, g1, g2, g3, u_1, r, y, y_1, y_2)
-    u = -f2*u_1 + h1*r -g1*y - g2*y_1 - g3*y_2;
+function u = controlador(Ref, F, G, H, Y, u1) 
+
+    u = ((H*Ref) -((G(1)*Y(3))+(G(2)*Y(2))+(G(3)*Y(1))) - F(2)*u1)/F(1);
+
 end
