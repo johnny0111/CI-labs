@@ -9,7 +9,7 @@ nk = 1;
 M = length(Ue);
 Unn = [Ye(1:M-1) Ye(2:M) Ue(2:M) Ue(1:M-1)]'; % 3 Entradas
 %Unn = [Ye(1:M-1) Ue(2:M)]'; % 3 Entradas
-
+Uvv = Uv(2:M);
 Utrain = Ue(2:M); % Target
 [Nu, trash] = size(Unn); % Número de entradas
 Ny = 1; % Número de saídas
@@ -29,7 +29,7 @@ net = newff(ones(Nu,1)*[minu maxu], [Nh Ny] ,{'tansig','purelin'}, 'trainlm' );
 
 net = init(net);
 
-net.biasConnect   = [ 1 1]';
+net.biasConnect   = [ 1 0]';
 net.performParam.ratio = 0.5; % Regularização 
 net.trainParam.epochs = 400;
 net.trainParam.show = 100;
@@ -55,6 +55,6 @@ Ynn  = sim(net,Unn);
 Errs = (Utrain - Unn')' * (Utrain - Unn')
 
 
-plot(Yv,'b');
+plot(Uvv,'b');
 hold on
 plot(Ynn,'r');
