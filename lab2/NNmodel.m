@@ -37,7 +37,7 @@ for Nh = 1:Nhmax
         [net,tr] = train(net,Unet_e',Ynet_e');
         Ynn  = sim(net,Unet_v')';
         
-        erro = (Yv(2:end) - Ynet_v);
+        erro = (Yv(2:end) - Ynn);
         SEQ = erro' * erro;
         
         if SEQ <= Errosq
