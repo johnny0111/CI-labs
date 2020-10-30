@@ -26,7 +26,7 @@ for Nh = 1:Nhmax
     for Nsim = 1:Nsimax
         net = newff(ones(Nu,1)*[minu maxu], [Nh Ny] ,{'tansig','purelin'}, 'trainlm' );
         net = init(net);
-        net.biasConnect   = [ 1 1]';
+        net.biasConnect   = [ 1 0]';
         net.performParam.ratio = 0.5; % Regularização 
         net.trainParam.epochs = 400;
         net.trainParam.show = 100;
@@ -57,7 +57,7 @@ Ynn  = sim(net,Unet_v')';
 save('Nets\net.mat', 'net', '-mat', '-v7.3')
 
 figure(1)
-plot(Yv, 'b'), hold on, plot(Ynet_v, 'r'), hold off
+plot(Yv, 'b'), hold on, plot(Ynn, 'r'), hold off
 title('validation performance'), xlabel('Sample')
 
 figure(2)

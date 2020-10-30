@@ -7,10 +7,10 @@ na = 1;
 nb = 2;
 nk = 1;
 M = length(Ue);
-Unn = [Ye(1:M-1) Ue(2:M) Ue(1:M-1)]'; % 3 Entradas
+Unn = [Ye(1:M-1) Ye(2:M) Ue(2:M) Ue(1:M-1)]'; % 3 Entradas
 %Unn = [Ye(1:M-1) Ue(2:M)]'; % 3 Entradas
 
-Ytrain = Ye(2:M); % Target
+Utrain = Ue(2:M); % Target
 [Nu, trash] = size(Unn); % Número de entradas
 Ny = 1; % Número de saídas
 
@@ -42,7 +42,7 @@ clc
 disp('_________________________________ Treino da Rede...')
 disp(' ')
 
-[net,tr] = train(net,Unn,Ytrain');
+[net,tr] = train(net,Unn,Utrain');
 
 W1=net.IW{1,1};
 W2=net.LW{2,1};
@@ -50,9 +50,9 @@ B1=net.b{1,1};
 
 %OOOOOOOOOOOOOOOOOOO Simulação da Rede Neuronal (Conunto de treino)
 
-Unn = [Yv(1:M-1) Uv(2:M) Uv(1:M-1)]'; % 3 Entradas
+Unn = [Yv(1:M-1) Yv(2:M) Uv(2:M) Uv(1:M-1)]'; % 3 Entradas
 Ynn  = sim(net,Unn);
-Errs = (Ytrain - Ynn')' * (Ytrain - Ynn')
+Errs = (Utrain - Unn')' * (Utrain - Unn')
 
 
 plot(Yv,'b');
