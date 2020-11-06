@@ -1,14 +1,15 @@
 clc, clear all, close all
 
-Nhmax = 6;
+Nhmax = 4;
 Nsimax = 3;
 Ny = 1;
 
-load dataset.mat
+load dataset_prof.mat
 
 Le = length(Ye);
 Lv = length(Yv);
 Unet_e = [Ye(1:Le-1) Ue(2:Le) Ue(1:Le-1)];
+%Unet_e = [Ye(2:Le) Ue(2:Le) Ue(1:Le-1)]; PQ NAO ISTO
 Ynet_e = Ye(2:Le);
 
 Unet_v = [Yv(1:Lv-1) Uv(2:Lv) Uv(1:Lv-1)];
@@ -53,8 +54,10 @@ end
 idoptinet = find(Sum_sq <= min(Sum_sq));
 netopt = ['Net_Nh' num2str(idoptinet)];
 eval(['load Nets\' netopt '.mat']);
-Ynn  = sim(net,Unet_v')';
+%Ynn  = sim(net,Unet_v')';
 save('Nets\net.mat', 'net', '-mat', '-v7.3')
+
+Ynn  = sim(Net_Nh3,Unet_v')';
 
 figure(1)
 plot(Yv, 'b'), hold on, plot(Ynn, 'r'), hold off

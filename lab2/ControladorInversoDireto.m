@@ -2,7 +2,7 @@ clear all, close, clc
 load ('Nets\net.mat')
 load ('NetsC\netc.mat')
 
-Ref = zeros(1,1000);
+Ref = zeros(1,750);
 Ref(1:150) = 2;
 Ref(150:300) = 4;
 Ref(300:450) = 3;
@@ -26,11 +26,11 @@ for index = 1:legth(Ref)
     if index <=2
         u(index,1) = Ref(index);
     else
-        u(index,1) = sim(netc, [Ref(index+1), y(index,1), uf(index-1,1), uf(index-2,1)]');
+        u(index,1) = sim(netc, [Ref(index+1), y(index,1), u(index-1,1), u(index-2,1)]');
     end
-
+    u(index,1) = max(min(u(index,1),5),0); % Saturação da excitação
     uf(index,1) = a * uf(index-1,1) + (1-a) * u(index-1,1);
-    uf(index,1) = max(min(uf(index,1),5),0); % Saturação da excitação
+   
     usbwrite(u(index),0)
     Dt = Toc;
     pause(Ts-Dt)
