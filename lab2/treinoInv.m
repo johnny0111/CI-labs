@@ -25,36 +25,38 @@ maxu = max(max(Unn));
 
 disp('_________________________________ Construção da Rede...')
 
-net = newff(ones(Nu,1)*[minu maxu], [Nh Ny] ,{'tansig','purelin'}, 'trainlm' );
+netc = newff(ones(Nu,1)*[minu maxu], [Nh Ny] ,{'tansig','purelin'}, 'trainlm' );
 
-net = init(net);
+netc = init(netc);
 
-net.biasConnect   = [ 1 0]';
-net.performParam.ratio = 0.5; % Regularização 
-net.trainParam.epochs = 400;
-net.trainParam.show = 100;
-net.trainParam.goal = 1e-5;
-net.performFcn = 'sse';
-net.trainParam.mu_max = 1e15;
+netc.biasConnect   = [ 1 0]';
+netc.performParam.ratio = 0.5; % Regularização 
+netc.trainParam.epochs = 400;
+netc.trainParam.show = 100;
+netc.trainParam.goal = 1e-5;
+netc.performFcn = 'sse';
+netc.trainParam.mu_max = 1e15;
 
 %OOOOOOOOOOOOOOOOOOO Treino da Rede Neuronal
 clc
 disp('_________________________________ Treino da Rede...')
 disp(' ')
 
-[net,tr] = train(net,Unn,Utrain');
+[netc,tr] = train(netc,Unn,Utrain');
 
-W1=net.IW{1,1};
-W2=net.LW{2,1};
-B1=net.b{1,1};
+W1=netc.IW{1,1};
+W2=netc.LW{2,1};
+B1=netc.b{1,1};
 
 %OOOOOOOOOOOOOOOOOOO Simulação da Rede Neuronal (Conunto de treino)
 
 Unn = [Yv(1:M-1) Yv(2:M) Uv(2:M) Uv(1:M-1)]'; % 3 Entradas
-Ynn  = sim(net,Unn);
+Ynn  = sim(netc,Unn);
 Errs = (Utrain - Unn')' * (Utrain - Unn')
 
 
 plot(Uvv,'b');
 hold on
 plot(Ynn,'r');
+%eval(['load NetsC\' netopt '.mat']);
+save('NetsC\netc.mat', 'netc', '-mat', '-v7.3')
