@@ -20,7 +20,7 @@ y = zeros(Nmax,1);
 usbinit();
 disp('Em modo controlo!')
  
-for index = 1:legth(Ref)
+for index = 1:legth(Ref)-1
     y(index,1) = usbread(0);
     tic
     if index <=2
@@ -28,12 +28,13 @@ for index = 1:legth(Ref)
     else
         u(index,1) = sim(netc, [Ref(index+1), y(index,1), u(index-1,1), u(index-2,1)]');
     end
-    u(index,1) = max(min(u(index,1),5),0); % Saturação da excitação
     uf(index,1) = a * uf(index-1,1) + (1-a) * u(index-1,1);
-   
-    usbwrite(u(index),0)
+    uf(index,1) = max(min(uf(index,1),5),0); % Saturação da excitação
+    usbwrite(uf(index),0)
     Dt = Toc;
     pause(Ts-Dt)
  end
  usbwrite(0,0)
+ 
+ subplot (2,1,1), plot (y(1:49)), hold on, plot (Ref(1:749)), hold off
  save expdataDI.mat Ref u y -mat

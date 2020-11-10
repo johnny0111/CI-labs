@@ -31,9 +31,9 @@ for index = 1:legth(Ref)
         u(index,1) = sim(netc, [Ref(index+1)-epsilon, y(index,1), u(index-1,1), u(index-2,1)]');
     end
     
-    u(index,1) = max(min(u(index,1),5),0); % Saturação da excitação
     uf(index,1) = a * uf(index-1,1) + (1-a) * u(index-1,1); %filtro passa baixo
-    usbwrite(u(index),0)
+    uf(index,1) = max(min(uf(index,1),5),0); % Saturação da excitação
+    usbwrite(uf(index),0)
     Dt = Toc;
     pause(Ts-Dt)
  end
