@@ -14,19 +14,24 @@ load processmodel.mat;
  Ref(450:600) = 4.5;
  Ref(600:750) = 3;
  
+ A = arx241.A;
+ B = arx241.B;
+ 
 a=-0.1;
 Nmax=length(Ref);
 u =zeros(Nmax,1);
 uf=zeros(Nmax,1);
 y = zeros(Nmax,1);
+y_process = zeros(Nmax,1);
 disp('Em modo controlo!') 
 
 for index= 3:Nmax-1
     u(index,1) = sim(netc, [Ref(index+1) y(index,1) u(index-1,1)]');  % Fun��o do controlador
-    %u(index,1)=2;
     uf(index,1) = a * uf(index-1,1) + (1-a) * u(index,1);
     uf(index,1) = max(min(uf(index,1),5),0); % Saturação da excitação
+    y_process(index+1,1) = -A(2)*y_process(index,1)- A(3)*y_process(index-1,1) + B(2)*uf(index,1) + B(3)*uf(index-1,1) + B(4)*uf(index-2,1) + + B(5)*uf(inde-3,1);
     y(index+1,1) = sim(net,[y(index,1), uf(index,1), uf(index-1,1)]');
+    
     
 end
 
