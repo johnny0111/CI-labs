@@ -20,7 +20,7 @@ minu = min(min(Unet_e));
 maxu = max(max(Unet_e));
 
 
-for Nh = 1:Nhmax
+for Nh = No:Nhmax
     clc
     Errosq = 10e10;
     Netid = ['Net_Nh' num2str(Nh)];
