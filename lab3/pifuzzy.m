@@ -20,8 +20,8 @@ end
 
 error_n = Kerror * error;  % Normalized error to FIS
 derror_n = Kderror * derror; % Normalized Derror to FIS
-%dufis = evalfis([error_n derror_n], fismx); % Older Matlab versions
-dufis = evalfis(fismx,[error_n derror_n]); % New Matlab versions
+dufis = evalfis([error_n derror_n], fismx); % Older Matlab versions
+%dufis = evalfis(fismx,[error_n derror_n]); % New Matlab versions
 u_pi = u1 + Kdu * dufis;
 
 % ********** Saturation ******************
