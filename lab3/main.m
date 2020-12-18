@@ -26,8 +26,8 @@ Ts = 0.08;
 T = 1.5;
 L = 0.5;
 
-Kp = 0.9*(T/L);
-Ki = L/0.3;
+Kp = 0.9*(T/L)
+Ki = L/0.3
 
 Ti = Kp/Ki;
 
@@ -40,11 +40,11 @@ Ts = 0.08; % Intervalo de amostragem 80 ms
 ubound = [0 5];
 error = 0;
 derror = 0;
-Kerror = 0.8*1/M;
-Kderror = 1.2*Ti/M;
+Kerror = 0.8*1/M
+Kderror = 1.2*Ti/M
 a = 0.015;
 % Kdu = a*diff(ubound);
-Kdu = 0.5*Ku;
+Kdu = 0.5*Ku
 % *************************************************
 
 u = zeros(N,1);
@@ -54,6 +54,7 @@ for index = 5 : N
     if index <= 3
         u(index,1) = 0.01;
     else
+
         error = r(index)-y(index);
         derror = r(index)-r(index-1)-y(index)+y(index-1);
         u(index,1)=pifuzzy(fuzzyInf, error, derror, Kerror, Kderror, Kdu, u(index-1,1), ubound);
@@ -61,8 +62,11 @@ for index = 5 : N
     y(index+1) = -A(2)*y(index,1) - A(3)*y(index-1,1) + B(2)*u(index-1,1) + B(3)*u(index-2,1) + B(4)*u(index-3,1) + + B(5)*u(index-4,1) + rand(1)*0.05 ;
     %y(index+1) = -theta(1)*y(index,1)-theta(2)*y(index-1,1)-theta(3)*y(index-2,1)+...
     %theta(4)*u(index,1)+theta(4)*u(index-1,1)+0.05*randn;
+    
   
 end
+
+err = immse(r(5:end),y(5:end-1))
 
 time = (0:1:N)'*Ts;
 subplot(2,1,1), plot(time,y,'b'),hold on, plot(time(2:end),r,'g'), hold off
